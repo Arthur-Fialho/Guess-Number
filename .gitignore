@@ -1,0 +1,51 @@
+# Compilados e pastas de build
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+
+# Configurações de usuário
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+*.userprefs
+
+# Cache e temporários
+*.pidb
+*.svclog
+*.pdb
+*.dbmdl
+*.bak
+*.tmp
+*.log
+
+# Configurações locais
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.json
+
+# IDE
+.vs/
+.idea/
+.vscode/
+
+# Pacotes
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+
+# Dependências restauráveis
+packages/
+*.dll
+*.exe
+
+# Teste e cobertura
+TestResults/
+*.coverage
+*.coveragexml
+
+# Outros
+_ReSharper*/
+*.DotSettings.user
