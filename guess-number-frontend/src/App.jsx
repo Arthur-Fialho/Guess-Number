@@ -117,7 +117,7 @@ function App() {
       </button>
       </div>
       <br /> <br />
-      <div calassName="game-interaction">
+      <div className="game-interaction">
       {/* Formulário para salvar a pontuação */}
       { isGameOver ? (
         // Se o jogo acabou, mostra o formulário para salvar o score
