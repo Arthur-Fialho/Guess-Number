@@ -35,7 +35,7 @@ namespace GuessNumber.Controllers
         
         // Endpoint para fazer uma tentativa
         [HttpPost("guess")]
-        public IActionResult MakeGuess([FromBody] GuessModel model)
+        public ActionResult<GuessResponse> MakeGuess([FromBody] GuessModel model)
         {
             try
             {
