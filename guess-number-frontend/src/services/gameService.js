@@ -1,12 +1,14 @@
 import axios from 'axios';
 
-// Base URL para a API do jogo
-const API_BASE_URL = 'http://localhost:5193/api/game';
+// Base URL
+const API_HOST = 'http://localhost:5193';
+const GAME_API_URL = `${API_HOST}/api/game`;
+const LEADERBOARD_API_URL = `${API_HOST}/api/leaderboard`;
 
 // Função para iniciar o jogo
 export const startGame = async (startRequest) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/start`, startRequest); // Envia a dificuldade no corpo da requisição
+        const response = await axios.post(`${GAME_API_URL}/start`, startRequest); // Envia a dificuldade no corpo da requisição
         return response.data;
     } catch (error) {
         console.error('Error starting game:', error);
@@ -17,7 +19,7 @@ export const startGame = async (startRequest) => {
 // Função para fazer uma tentativa de adivinhação
 export const makeGuess = async (guess) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/guess`, { guess }, {
+        const response = await axios.post(`${GAME_API_URL}/guess`, { guess }, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -28,3 +30,26 @@ export const makeGuess = async (guess) => {
         throw error;
     }
 }
+
+// Função para obter o leaderboard
+export const getLeaderboard = async () => {
+    try {
+        const response = await axios.get(`${LEADERBOARD_API_URL}/top-scores`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching leaderboard:', error);
+        throw error;
+    }
+};
+
+// Função para enviar uma nova pontuação ao leaderboard
+export const submitScore = async (playerName, attempts) => {
+    const scoreData = { playerName, attempts };
+    try {
+        const response = await axios.post(`${LEADERBOARD_API_URL}/submit-score`, scoreData);
+        return response.data;
+    } catch (error) {
+        console.error('Error submitting score:', error);
+        throw error;
+    }
+};
