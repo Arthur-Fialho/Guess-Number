@@ -1,5 +1,6 @@
 using GuessNumber.Models;
 using GuessNumber.Interfaces;
+using GuessNumber.Enums;
 
 namespace GuessNumber.Services
 {
@@ -13,6 +14,8 @@ namespace GuessNumber.Services
 
         private int _attempts;
 
+        private DifficultyLevel _currentDifficulty;
+
         // Construtor que injeta a dependência do provedor de números aleatórios
         public GameService(IRandomNumberProvider randomNumberProvider)
         {
@@ -20,16 +23,23 @@ namespace GuessNumber.Services
         }
 
         // Inicializa o número aleatório e zera as tentativas
-        public void StartGame()
+        public void StartGame(DifficultyLevel difficulty)
         {
-            RandomNumber = GenerateRandomNumber();
+            _currentDifficulty = difficulty;
+            RandomNumber = GenerateRandomNumber(difficulty);
             _attempts = 0;
         }
 
         // Gera um numero aleatório entre 1 e 100
-        public int GenerateRandomNumber()
+        public int GenerateRandomNumber(DifficultyLevel difficulty)
         {
-            return _randomNumberProvider.Next(1, 101);
+            int maxNumber = difficulty switch
+            {
+                DifficultyLevel.Easy => 51,   // Gera números de 1 a 50
+                DifficultyLevel.Hard => 501,  // Gera números de 1 a 500
+                _ => 101,                     // Padrão (Medium) gera de 1 a 100
+            };
+            return _randomNumberProvider.Next(1, maxNumber);
         }
 
         // Faz uma tentativa de adivinhar o número e retorna a resposta no modelo GuessResponse dto
@@ -40,17 +50,24 @@ namespace GuessNumber.Services
             {
                 return new GuessResponse
                 {
-                    Message = "Entrada inválida. Por favor, insira um número inteiro entre 1 e 100.",
+                    Message = "Entrada inválida. Por favor, insira um número inteiro.",
                     Attempts = _attempts,
                     IsGameOver = false
                 };
             }
+
+            int maxNumber = _currentDifficulty switch
+            {
+                DifficultyLevel.Easy => 50,
+                DifficultyLevel.Hard => 500,
+                _ => 100,
+            };
             // Verifica se o número está dentro do intervalo permitido
-            if (playerNumber < 1 || playerNumber > 100)
+            if (playerNumber < 1 || playerNumber > maxNumber)
             {
                 return new GuessResponse
                 {
-                    Message = $"Número {playerNumber} fora do intervalo. Por favor, insira um número entre 1 e 100.",
+                    Message = $"Número {playerNumber} fora do intervalo. Por favor, insira um número entre 1 e {maxNumber}.",
                     Attempts = _attempts,
                     IsGameOver = false
                 };

@@ -1,6 +1,7 @@
 ﻿using GuessNumber.Services;
 using Xunit;
 using GuessNumber.Interfaces;
+using GuessNumber.Enums;
 
 namespace GuessNumber.Tests;
 
@@ -27,8 +28,9 @@ public class GameServiceTests
     {
         // Arrange
         var fakeRandomProvider = new FakeRandomNumberProvider(10); // Número fixo para teste
+        var difficulty = DifficultyLevel.Medium;
         var gameService = new GameService(fakeRandomProvider);
-        gameService.StartGame();
+        gameService.StartGame(difficulty);
 
         // Act
         var result = gameService.MakeGuess("5");
@@ -45,8 +47,9 @@ public class GameServiceTests
     {
         // Arrange
         var fakeRandomProvider = new FakeRandomNumberProvider(10); // Número fixo para teste
+        var difficulty = DifficultyLevel.Medium;
         var gameService = new GameService(fakeRandomProvider);
-        gameService.StartGame();
+        gameService.StartGame(difficulty);
 
         // Act
         var result = gameService.MakeGuess("15");
@@ -62,8 +65,9 @@ public class GameServiceTests
     {
         // Arrange
         var fakeRandomProvider = new FakeRandomNumberProvider(10); // Número fixo para teste
+        var difficulty = DifficultyLevel.Medium;
         var gameService = new GameService(fakeRandomProvider);
-        gameService.StartGame();
+        gameService.StartGame(difficulty);
 
         // Act
         var result = gameService.MakeGuess("10");
@@ -79,42 +83,56 @@ public class GameServiceTests
     {
         // Arrange
         var fakeRandomProvider = new FakeRandomNumberProvider(10); // Número fixo para teste
+        var difficulty = DifficultyLevel.Medium;
         var gameService = new GameService(fakeRandomProvider);
-        gameService.StartGame();
+        gameService.StartGame(difficulty);
 
         // Act
         var result = gameService.MakeGuess("abc");
 
         // Assert
-        Assert.Equal("Entrada inválida. Por favor, insira um número inteiro entre 1 e 100.", result.Message); // Verifica a mensagem
+        Assert.Equal("Entrada inválida. Por favor, insira um número inteiro.", result.Message); // Verifica a mensagem
         Assert.Equal(0, result.Attempts); // Verifica o número de tentativas
         Assert.False(result.IsGameOver); // Verifica se o jogo não acabou
     }
 
-    [Fact]
-    public void MakeGuess_WhenNumberIsOutOfRange_ShouldReturnOutOfRangeMessage()
+    [Theory]
+    [InlineData(DifficultyLevel.Easy, 51)]  // Cenário 1: Dificuldade Fácil, palpite 51 (fora)
+    [InlineData(DifficultyLevel.Easy, 0)]   // Cenário 2: Dificuldade Fácil, palpite 0 (fora)
+    [InlineData(DifficultyLevel.Medium, 101)] // Cenário 3: Dificuldade Média, palpite 101 (fora)
+    [InlineData(DifficultyLevel.Hard, 501)] // Cenário 4: Dificuldade Difícil, palpite 501 (fora)
+    public void MakeGuess_WhenNumberIsOutOfRange_ShouldReturnOutOfRangeMessage(DifficultyLevel difficulty, int outOfRangeGuess)
     {
         // Arrange
-        var fakeRandomProvider = new FakeRandomNumberProvider(10); // Número fixo para teste
+        var fakeRandomProvider = new FakeRandomNumberProvider(10); 
+        var maxNumber = difficulty switch
+        {
+            DifficultyLevel.Easy => 50,
+            DifficultyLevel.Medium => 100,
+            DifficultyLevel.Hard => 500,
+            _ => 100
+        };
         var gameService = new GameService(fakeRandomProvider);
-        gameService.StartGame();
+        gameService.StartGame(difficulty); // Inicia o jogo com a dificuldade de cada cenário
 
         // Act
-        var result = gameService.MakeGuess("150");
+        var result = gameService.MakeGuess(outOfRangeGuess.ToString());
 
         // Assert
-        Assert.Equal("Número 150 fora do intervalo. Por favor, insira um número entre 1 e 100.", result.Message); // Verifica a mensagem
-        Assert.Equal(0, result.Attempts); // Verifica o número de tentativas
-        Assert.False(result.IsGameOver); // Verifica se o jogo não acabou
+        Assert.Contains($"Número {outOfRangeGuess} fora do intervalo. Por favor, insira um número entre 1 e {maxNumber}.", result.Message);
+        Assert.Equal(0, result.Attempts);
+        Assert.False(result.IsGameOver);
     }
+    
 
     [Fact]
     public void MakeGuess_WhenInputIsInvalid_ShouldNotIncrementAttempts()
     {
         // Arrange
         var fakeRandomProvider = new FakeRandomNumberProvider(10); // Número fixo para teste
+        var difficulty = DifficultyLevel.Medium;
         var gameService = new GameService(fakeRandomProvider);
-        gameService.StartGame();
+        gameService.StartGame(difficulty);
 
         // Act
         var result1 = gameService.MakeGuess("abc"); // Entrada inválida
@@ -130,8 +148,9 @@ public class GameServiceTests
     {
         // Arrange
         var fakeRandomProvider = new FakeRandomNumberProvider(10); // Número fixo para teste
+        var difficulty = DifficultyLevel.Medium;
         var gameService = new GameService(fakeRandomProvider);
-        gameService.StartGame();
+        gameService.StartGame(difficulty);
 
         // Act
         gameService.MakeGuess("5");   // 1ª tentativa
@@ -148,12 +167,13 @@ public class GameServiceTests
     {
         // Arrange
         var fakeRandomProvider = new FakeRandomNumberProvider(10); // Número fixo para teste
+        var difficulty = DifficultyLevel.Medium;
         var gameService = new GameService(fakeRandomProvider);
-        gameService.StartGame();
+        gameService.StartGame(difficulty);
 
         // Act
         gameService.MakeGuess("5");   // 1ª tentativa
-        gameService.StartGame();       // Reinicia o jogo
+        gameService.StartGame(difficulty);       // Reinicia o jogo
         var result = gameService.MakeGuess("10"); // 1ª tentativa do novo jogo
 
         // Assert

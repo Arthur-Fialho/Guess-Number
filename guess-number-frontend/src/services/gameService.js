@@ -4,9 +4,9 @@ import axios from 'axios';
 const API_BASE_URL = 'http://localhost:5193/api/game';
 
 // Função para iniciar o jogo
-export const startGame = async () => {
+export const startGame = async (startRequest) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/start`);
+        const response = await axios.post(`${API_BASE_URL}/start`, startRequest); // Envia a dificuldade no corpo da requisição
         return response.data;
     } catch (error) {
         console.error('Error starting game:', error);

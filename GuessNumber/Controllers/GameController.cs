@@ -20,12 +20,12 @@ namespace GuessNumber.Controllers
 
         // Endpoint para iniciar o jogo
         [HttpPost("start")]
-        public IActionResult StartGame()
+        public IActionResult StartGame([FromBody] StartGameRequest request)
         {
             try
             {
-                _gameService.StartGame();
-                return Ok();
+                _gameService.StartGame(request.Difficulty);
+                return Ok("Novo jogo iniciado com dificuldade " + request.Difficulty.ToString());
             }
             catch (Exception ex) // Captura exceções genéricas
             {
