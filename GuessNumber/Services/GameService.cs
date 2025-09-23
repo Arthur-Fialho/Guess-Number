@@ -1,18 +1,25 @@
 using GuessNumber.Models;
+using GuessNumber.Interfaces;
 
 namespace GuessNumber.Services
 {
     public class GameService
     {
+        // Dependência para geração de números aleatórios
+        private readonly IRandomNumberProvider _randomNumberProvider;
+
         // Número aleatório a ser adivinhado
         private int RandomNumber { get; set; }
 
         private int _attempts;
 
-        // Gerador de números aleatórios, stático para manter o estado entre chamadas e evitar repetição
-        private static readonly Random _random = new Random();
+        // Construtor que injeta a dependência do provedor de números aleatórios
+        public GameService(IRandomNumberProvider randomNumberProvider)
+        {
+            _randomNumberProvider = randomNumberProvider;
+        }
 
-        // Inicia o jogo gerando um número aleatório
+        // Inicializa o número aleatório e zera as tentativas
         public void StartGame()
         {
             RandomNumber = GenerateRandomNumber();
@@ -22,7 +29,7 @@ namespace GuessNumber.Services
         // Gera um numero aleatório entre 1 e 100
         public int GenerateRandomNumber()
         {
-            return _random.Next(1, 101);
+            return _randomNumberProvider.Next(1, 101);
         }
 
         // Faz uma tentativa de adivinhar o número e retorna a resposta no modelo GuessResponse dto

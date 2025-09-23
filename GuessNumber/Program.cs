@@ -22,6 +22,7 @@ builder.Services.AddOpenApi();
 
 // Usado Singleton para manter o estado do número aleatório entre requisições
 builder.Services.AddSingleton<GuessNumber.Services.GameService>();
+builder.Services.AddSingleton<GuessNumber.Interfaces.IRandomNumberProvider, GuessNumber.Providers.SystemRandomProvider>();
 
 var app = builder.Build();
 
