@@ -86,11 +86,11 @@ namespace GuessNumber.Services
         {
             if (playerNumber < randomNumber)
             {
-                return "Seu palpite é menor que o número aleatório.";
+                return $"Seu palpite {playerNumber} é menor que o número aleatório.";
             }
             else if (playerNumber > randomNumber)
             {
-                return "Seu palpite é maior que o número aleatório.";
+                return $"Seu palpite {playerNumber} é maior que o número aleatório.";
             }
             else
             {

@@ -1,4 +1,5 @@
 using GuessNumber.Entities;
+using GuessNumber.Enums;
 using GuessNumber.Interfaces;
 using GuessNumber.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -35,9 +36,9 @@ namespace GuessNumber.Controllers
         }
 
         [HttpGet("top-scores")]
-        public async Task<ActionResult<IEnumerable<PlayerScore>>> GetTopScores()
+        public async Task<ActionResult<IEnumerable<PlayerScore>>> GetTopScores([FromQuery] DifficultyLevel difficulty)
         {
-            var scores = await _leaderboardService.GetTopScoresAsync();
+            var scores = await _leaderboardService.GetTopScoresAsync(difficulty);
             return Ok(scores);
         }
     }

@@ -32,9 +32,11 @@ export const makeGuess = async (guess) => {
 }
 
 // Função para obter o leaderboard
-export const getLeaderboard = async () => {
+export const getLeaderboard = async (difficulty) => {
     try {
-        const response = await axios.get(`${LEADERBOARD_API_URL}/top-scores`);
+        const response = await axios.get(`${LEADERBOARD_API_URL}/top-scores`, {
+            params: { difficulty }
+        });
         return response.data;
     } catch (error) {
         console.error('Error fetching leaderboard:', error);
@@ -43,8 +45,8 @@ export const getLeaderboard = async () => {
 };
 
 // Função para enviar uma nova pontuação ao leaderboard
-export const submitScore = async (playerName, attempts) => {
-    const scoreData = { playerName, attempts };
+export const submitScore = async (playerName, attempts, difficulty) => {
+    const scoreData = { playerName, attempts, difficulty };
     try {
         const response = await axios.post(`${LEADERBOARD_API_URL}/submit-score`, scoreData);
         return response.data;

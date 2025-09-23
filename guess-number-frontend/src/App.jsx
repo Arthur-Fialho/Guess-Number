@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { startGame, makeGuess, getLeaderboard, submitScore } from './services/gameService';
 import guessNumberLogo from './assets/guess-number-logo.svg'
-import './App.css'
+import './App.scss'
 
 function App() {
   const [guess, setGuess] = useState('');
@@ -13,21 +13,26 @@ function App() {
   const [isGameOver, setIsGameOver] = useState(false);
   const [difficulty, setDifficulty] = useState(1); // 0: Fácil, 1: Médio, 2: Difícil
   const [playerName, setPlayerName] = useState('');
+  const [viewingDifficulty, setViewingDifficulty] = useState(1); // Dificuldade atual do leaderboard
+
+  const difficultyMap = { 0: 'Fácil', 1: 'Médio', 2: 'Difícil' };
 
   const [leaderboard, setLeaderboard] = useState([]);
   // Carrega o leaderboard ao montar o componente
     useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        const scores = await getLeaderboard();
-        setLeaderboard(scores);
-      } catch (error) {
-        console.error("Failed to load leaderboard");
-      }
-    };
+        const fetchLeaderboard = async () => {
+          try {
+            // Passa a dificuldade que está sendo visualizada para a função do serviço
+            const scores = await getLeaderboard(viewingDifficulty);
+            setLeaderboard(scores);
+          } catch (error) {
+            console.error("Failed to load leaderboard");
+            setLeaderboard([]); // Limpa o placar em caso de erro 
+          }
+        };
 
-      fetchLeaderboard();
-    }, []);
+        fetchLeaderboard();
+    }, [viewingDifficulty]); // Recarrega o placar quando a dificuldade visualizada mudar
 
   // Função para iniciar um novo jogo
   const handleStartGame = async () => {
@@ -75,8 +80,13 @@ function App() {
         return;
     }
     try {
-        await submitScore(playerName, attempts);
-        setMessage(`Parabéns, ${playerName}! Sua pontuação foi salva.`);
+        await submitScore(playerName, attempts, difficulty);  
+        setMessage(
+            <>
+                Parabéns, {playerName}! Sua pontuação foi salva. <br />
+                Selecione a dificuldade e clique em "Novo Jogo" para jogar novamente.
+            </>
+        );
 
         // Atualiza o placar em tempo real
         const updatedScores = await getLeaderboard();
@@ -96,17 +106,18 @@ function App() {
       <h2>{message}</h2>
       <p><strong>Dificuldade Selecionada:</strong> {difficulty === 0 ? 'Fácil números entre 1 e 50' : difficulty === 1 ? 'Médio números entre 1 e 100' : 'Difícil números entre 1 e 500'}</p>
       <br />
-      <div className="difficulty-selector">
+      <div className="game-setup">
         <span>Dificuldade: </span>
         <button onClick={() => setDifficulty(0)}>Fácil</button>
         <button onClick={() => setDifficulty(1)}>Médio</button>
         <button onClick={() => setDifficulty(2)}>Difícil</button>
-      </div> <br />
+      <br />
       <button onClick={handleStartGame} disabled={isLoadingNewGame}>
         {isLoadingNewGame ? 'Iniciando...' : 'Novo Jogo'}
       </button>
+      </div>
       <br /> <br />
-      <div>
+      <div calassName="game-interaction">
       {/* Formulário para salvar a pontuação */}
       { isGameOver ? (
         // Se o jogo acabou, mostra o formulário para salvar o score
@@ -135,25 +146,28 @@ function App() {
             </button>
         </div>
       )}
+      </div>
         <br /> <br />
-        <button onClick={handleMakeGuess} disabled={isGameOver || isLoadingGuess}>
-          {isLoadingGuess ? 'Enviando...' : 'Enviar Palpite'}
-        </button>
         {/* Só mostra essa seção se o jogo já tiver começado */}
         {attempts > 0 && (
-          <div className="game-info">
+          <div className="game-status">
             <p>Tentativas válidas: {attempts}</p>
             <p>Palpites já feitos: {guessHistory.join(', ')}</p>
           </div>
         )}
-      </div>
       <br /> <hr /> <br />
       <div className="leaderboard">
         <h3>🏆 Placar dos Melhores 🏆</h3>
+        {/* Filtros de Dificuldade */}
+          <div className="leaderboard-filter">
+            <button onClick={() => setViewingDifficulty(0)}>Fácil</button>
+            <button onClick={() => setViewingDifficulty(1)}>Médio</button>
+            <button onClick={() => setViewingDifficulty(2)}>Difícil</button>
+          </div>
         <ol>
           {leaderboard.map((score) => (
             <li key={score.id}>
-              {score.playerName} - {score.attempts} tentativas
+              {score.playerName} - {score.attempts} tentativas ({difficultyMap[score.difficulty]})
             </li>
           ))}
         </ol>

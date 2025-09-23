@@ -36,7 +36,7 @@ public class GameServiceTests
         var result = gameService.MakeGuess("5");
 
         // Assert
-        Assert.Equal("Seu palpite é menor que o número aleatório.", result.Message); // Verifica a mensagem
+        Assert.Equal("Seu palpite 5 é menor que o número aleatório.", result.Message); // Verifica a mensagem
         Assert.Equal(1, result.Attempts); // Verifica o número de tentativas
         Assert.False(result.IsGameOver); // Verifica se o jogo não acabou
     }
@@ -55,7 +55,7 @@ public class GameServiceTests
         var result = gameService.MakeGuess("15");
 
         // Assert
-        Assert.Equal("Seu palpite é maior que o número aleatório.", result.Message); // Verifica a mensagem
+        Assert.Equal("Seu palpite 15 é maior que o número aleatório.", result.Message); // Verifica a mensagem
         Assert.Equal(1, result.Attempts); // Verifica o número de tentativas
         Assert.False(result.IsGameOver); // Verifica se o jogo não acabou
     }
