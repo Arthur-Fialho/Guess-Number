@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Círculo externo -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#4CAF50" stroke-width="8"></circle>
+
+  <!-- Ponto de interrogação -->
+  <path d="M100 50 
+           C85 50, 70 65, 70 80 
+           C70 95, 85 100, 100 110 
+           C115 120, 115 130, 100 130" stroke="#4CAF50" stroke-width="8" fill="none" stroke-linecap="round"></path>
+
+  <!-- Bolinha do ponto de interrogação -->
+  <circle cx="100" cy="150" r="8" fill="#4CAF50"></circle>
+</svg>
