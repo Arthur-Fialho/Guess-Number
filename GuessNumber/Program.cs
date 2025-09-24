@@ -9,8 +9,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 // Configuração do DbContext para usar SQLite
+var connectionStringTemplate = builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (string.IsNullOrEmpty(connectionStringTemplate))
+{
+    throw new InvalidOperationException("A Connection String 'DefaultConnection' não foi encontrada no appsettings.json.");
+}
+
+var dbPath = System.IO.Path.Combine(builder.Environment.ContentRootPath, "guessnumber.db");
+var connectionString = connectionStringTemplate.Replace("{DatabasePath}", dbPath);
+
 builder.Services.AddDbContext<GameDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite(connectionString));
 
 // Injeção de dependência para o serviço de leaderboard
 builder.Services.AddScoped<ILeaderboardService, LeaderboardService>();
