@@ -43,7 +43,7 @@ Para executar o projeto, siga as instruções abaixo.
 1.  Clone o repositório:
     ```bash
     git clone https://github.com/Arthur-Fialho/DTI-Guess-Number.git
-    cd DTI-GuessNumber
+    cd DTI-Guess-Number
     ```
 
 ### Backend
@@ -68,7 +68,7 @@ O servidor da API estará disponível em `http://localhost:5193`.
 
 ### Frontend
 
-1. Navegue até a pasta `guess-number-frontend`:
+1. Em um novo terminal navegue até a pasta `guess-number-frontend`:
    ```bash
    cd guess-number-frontend
    ```
