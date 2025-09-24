@@ -52,7 +52,15 @@ Para executar o projeto, siga as instruções abaixo.
    ```bash
    cd GuessNumber
    ```
-2. Execute o projeto:
+2. Restaure as dependências:
+   ```bash
+   dotnet restore
+   ```
+3. Crie e aplique as migrações do banco de dados:
+   ```bash
+   dotnet ef database update
+   ```
+4. Execute o projeto:
    ```bash
    dotnet run
    ```
