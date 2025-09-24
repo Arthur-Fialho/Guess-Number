@@ -78,6 +78,11 @@ button {
     color: color.adjust($light-text, $lightness: -40%);
     cursor: not-allowed;
   }
+
+  &.selected {
+    border: 2px solid white;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  }
 }
 
 .leaderboard {
@@ -94,6 +99,13 @@ button {
     margin-bottom: $spacing-unit * 0.5;
     border-radius: $border-radius;
   }
+}
+
+.leaderboard-filter {
+  display: flex;
+  justify-content: center;
+  gap: $spacing-unit * 0.5;
+  margin-bottom: $spacing-unit;
 }
 
 // Logo

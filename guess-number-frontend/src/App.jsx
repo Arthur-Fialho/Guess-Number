@@ -108,9 +108,24 @@ function App() {
       <br />
       <div className="game-setup">
         <span>Dificuldade: </span>
-        <button onClick={() => setDifficulty(0)}>Fácil</button>
-        <button onClick={() => setDifficulty(1)}>Médio</button>
-        <button onClick={() => setDifficulty(2)}>Difícil</button>
+        <button 
+          onClick={() => setDifficulty(0)} 
+          className={difficulty === 0 ? 'selected' : ''}
+        >
+          Fácil
+        </button>
+        <button 
+          onClick={() => setDifficulty(1)} 
+          className={difficulty === 1 ? 'selected' : ''}
+        >
+          Médio
+        </button>
+        <button 
+          onClick={() => setDifficulty(2)} 
+          className={difficulty === 2 ? 'selected' : ''}
+        >
+          Difícil
+        </button>
       <br />
       <button onClick={handleStartGame} disabled={isLoadingNewGame}>
         {isLoadingNewGame ? 'Iniciando...' : 'Novo Jogo'}
@@ -160,9 +175,24 @@ function App() {
         <h3>🏆 Placar dos Melhores 🏆</h3>
         {/* Filtros de Dificuldade */}
           <div className="leaderboard-filter">
-            <button onClick={() => setViewingDifficulty(0)}>Fácil</button>
-            <button onClick={() => setViewingDifficulty(1)}>Médio</button>
-            <button onClick={() => setViewingDifficulty(2)}>Difícil</button>
+            <button 
+              onClick={() => setViewingDifficulty(0)} 
+              className={viewingDifficulty === 0 ? 'selected' : ''}
+            >
+              Fácil
+            </button>
+            <button 
+              onClick={() => setViewingDifficulty(1)} 
+              className={viewingDifficulty === 1 ? 'selected' : ''}
+            >
+              Médio
+            </button>
+            <button 
+              onClick={() => setViewingDifficulty(2)} 
+              className={viewingDifficulty === 2 ? 'selected' : ''}
+            >
+              Difícil
+            </button>
           </div>
         <ol>
           {leaderboard.map((score) => (

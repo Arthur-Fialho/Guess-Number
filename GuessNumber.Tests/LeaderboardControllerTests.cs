@@ -31,6 +31,7 @@ public class LeaderboardControllerTests : WebApplicationFactory<Program>
                 d.ServiceType == typeof(DbContextOptions<GameDbContext>) ||
                 d.ServiceType == typeof(GameDbContext)).ToList();
 
+            // Percorre e remove cada uma das configurações encontradas
             foreach (var descriptor in descriptorsToRemove)
             {
                 services.Remove(descriptor);
