@@ -39,6 +39,13 @@ Para executar o projeto, siga as instruções abaixo.
 - [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
 - [Node.js](https://nodejs.org/)
 
+###  Clone o repositório
+1.  Clone o repositório:
+    ```bash
+    git clone https://github.com/Arthur-Fialho/DTI-Guess-Number.git
+    cd DTI-guessNumber
+    ```
+
 ### Backend
 
 1. Navegue até a pasta `GuessNumber`:
