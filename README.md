@@ -43,7 +43,7 @@ Para executar o projeto, siga as instruções abaixo.
 1.  Clone o repositório:
     ```bash
     git clone https://github.com/Arthur-Fialho/DTI-Guess-Number.git
-    cd DTI-guessNumber
+    cd DTI-GuessNumber
     ```
 
 ### Backend
