@@ -119,6 +119,22 @@ Para executar os testes do frontend, navegue até a pasta `guess-number-frontend
 npm test
 ```
 
+## 🧠 Premissas Assumidas
+
+**Para a execução deste desafio, as seguintes premissas foram assumidas para definir o escopo e guiar as decisões de arquitetura do projeto:**
+
+- **Instância Única de Jogo:** A premissa mais importante foi a de que apenas um jogo estaria ativo por vez em toda a aplicação. Isso permitiu uma abordagem mais simples e eficiente para o gerenciamento de estado no backend, utilizando um serviço **Singleton** em memória, sem a necessidade de gerenciar múltiplas sessões de jogo simultaneamente.
+
+- **Ausência de Autenticação de Usuários:** Assumi que não era necessário um sistema de login ou autenticação de usuários. O nome do jogador é solicitado e inserido livremente apenas no momento de salvar uma pontuação no placar, simplificando o fluxo e o modelo de dados.
+
+- **Persistência de Dados Focada no Placar:** A necessidade de persistência de dados foi assumida como sendo exclusiva para a funcionalidade do placar. Um banco de dados simples e local como o 
+ **SQLite** foi considerado suficiente para os requisitos do desafio, sem a necessidade de um servidor de banco de dados mais robusto. 
+
+
+- **Ambiente de Desenvolvimento Local:** O projeto foi desenvolvido com a premissa de ser executado em um ambiente local. Configurações para deploy em produção, como o uso de variáveis de ambiente para a *connection string* ou outras chaves, não fizeram parte do escopo.
+
+- **Gerenciamento de Estado Simples no Frontend:** Para a interface, a premissa foi que toda a lógica de estado poderia ser centralizada em um único componente (App.jsx), sem a necessidade de introduzir bibliotecas de gerenciamento de estado mais complexas (como Redux ou Zustand), dado o escopo da aplicação.
+
 ## 🧠 Decisões de Projeto
 
 - **Arquitetura:** O projeto foi estruturado em um monorepo simples, com separação clara entre o backend e o frontend para facilitar o desenvolvimento e a manutenção.
