@@ -6,6 +6,8 @@ Web App "Adivinhe o Número" com backend em .NET e frontend em React.
 
 O projeto consiste em uma aplicação web onde o usuário deve adivinhar um número secreto. O jogo possui três níveis de dificuldade, um placar de líderes e um design simples e intuitivo.
 
+![Imagem do Inicio do jogo](</Images/HomeScreen.png>)
+
 ## ✨ Funcionalidades
 
 - Três níveis de dificuldade: Fácil (1-50), Médio (1-100) e Difícil (1-500).
